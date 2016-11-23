@@ -35,8 +35,8 @@ describe("About Higher Order Functions", function() {
       /* initial */ 0
     );
     
-    expect(reduction).toBe(FILL_ME_IN);
-    expect(numbers).toEqual(FILL_ME_IN);
+    expect(reduction).toBe(6); //"reduces" the memo by adding everything
+    expect(numbers).toEqual([1,2,3]); //does not modify original object
   });
     
   it("should use 'forEach' for simple iteration", function() {
@@ -46,10 +46,10 @@ describe("About Higher Order Functions", function() {
       msg += (item % 2) === 0;
     };
 
-    _(numbers).forEach(isEven);
+    _(numbers).forEach(isEven); //isEven takes in "each" value in "numbers" as the "item" passed into the test function
     
-    expect(msg).toEqual(FILL_ME_IN);
-    expect(numbers).toEqual(FILL_ME_IN);
+    expect(msg).toEqual("falsetruefalse");
+    expect(numbers).toEqual([1,2,3]);
   });
     
   it("should use 'all' to test whether all items pass condition", function() {
@@ -58,8 +58,8 @@ describe("About Higher Order Functions", function() {
 
     var isEven = function(x) { return x % 2 === 0 };
 
-    expect(_(onlyEven).all(isEven)).toBe(FILL_ME_IN);
-    expect(_(mixedBag).all(isEven)).toBe(FILL_ME_IN);
+    expect(_(onlyEven).all(isEven)).toBe(true);
+    expect(_(mixedBag).all(isEven)).toBe(false);
   });
     
   it("should use 'any' to test if any items passes condition" , function() {
@@ -68,28 +68,29 @@ describe("About Higher Order Functions", function() {
 
     var isEven = function(x) { return x % 2 === 0 };
 
-    expect(_(onlyEven).any(isEven)).toBe(FILL_ME_IN);
-    expect(_(mixedBag).any(isEven)).toBe(FILL_ME_IN);
+    expect(_(onlyEven).any(isEven)).toBe(true);
+    expect(_(mixedBag).any(isEven)).toBe(true);
   });
 
   it("should use range to generate an array", function() {
-    expect(_.range(3)).toEqual(FILL_ME_IN);
-    expect(_.range(1, 4)).toEqual(FILL_ME_IN);
-    expect(_.range(0, -4, -1)).toEqual(FILL_ME_IN);
+    expect(_.range(3)).toEqual([0,1,2]);//default start 0
+    expect(_.range(1, 4)).toEqual([1,2,3]);//start 1, end 4 exclusive
+    expect(_.range(0, -4, -1)).toEqual([0,-1,-2,-3]);//start 0, end -4 exclusive, -1 increment
   });
 
   it("should use flatten to make nested arrays easy to work with", function() {
-    expect(_([ [1, 2], [3, 4] ]).flatten()).toEqual(FILL_ME_IN);
+    expect(_([ [1, 2], [3, 4] ]).flatten()).toEqual([1,2,3,4]);
+    //"flattens" multiple arrays into one single array, left to right
   });
 
   it("should use chain() ... .value() to use multiple higher order functions", function() {
-    var result = _([ [0, 1], 2 ]).chain()
-                     .flatten()
-                     .map(function(x) { return x+1 } )
-                     .reduce(function(sum, x) { return sum + x })
-                     .value();
+    var result = _([ [0, 1], 2 ]).chain()//chain executes the following declared functions on the object
+                     .flatten() //[0,1,2]
+                     .map(function(x) { return x+1 } ) //[1,2,3]
+                     .reduce(function(sum, x) { return sum + x })//1+2+3
+                     .value(); //6
 
-    expect(result).toEqual(FILL_ME_IN);
+    expect(result).toEqual(6);
   });
 
 });
